@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import jsPDF from 'jspdf';
 
@@ -68,7 +68,6 @@ function App() {
     for (let i = 0; i < images.length; i++) {
       const img = images[i];
       const imgIndex = i % (cols * rows);
-      const pageIndex = Math.floor(i / (cols * rows));
 
       if (i > 0 && imgIndex === 0) {
         doc.addPage();
@@ -111,7 +110,7 @@ function App() {
 
       // URLテキストを描画（改行対応）
       doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
+      doc.setFont('helvetica', 'normal');
       const urlLines = doc.splitTextToSize(url, cellWidth - 4); // セル幅に合わせてテキストを分割
       doc.text(urlLines, urlX, urlY, { align: 'center' });
 
@@ -119,12 +118,12 @@ function App() {
       doc.addImage(imgData, 'PNG', imgX, imgY, imgWidth, imgHeight);
 
       // コードテキストを太字で描画
-      doc.setFont(undefined, 'bold');
+      doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
       doc.text(code, codeX, codeY, { align: 'center' });
 
       // フォントを元に戻す
-      doc.setFont(undefined, 'normal');
+      doc.setFont('helvetica', 'normal');
     }
 
     doc.save('qr_codes.pdf');
